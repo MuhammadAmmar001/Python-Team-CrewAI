@@ -1,0 +1,41 @@
+plan_design:
+  description: >
+    Given the requirements, design a comprehensive plan with the complete design and all the functions that will be needed to achieve the requirements. The requirements are: {argument}. You need to breakdown the complete problem and provide thorough detaild about each function so that the backend engineer can write the complete code accordingly. 
+    IMPORTANT: Layout the complete plan in a single markdown file and the name of the module should be: {module} with the class name as: {class}. You just have to prepare a plan in the markdown file with complete functionality.
+  expected_output: >
+    A markdown file with complete details about the design and functionality fulfilling the requirements. The requirement is: {argument}.
+  agent: engineering_lead
+  output_file: output/{module}.md
+
+code_backend:
+  description: >
+    Implement the complete backend in python following the design plan provided fulfilling the requirements: {argument}.
+  expected_output: >
+    A python module adhering to the design plan and functionalities provided by the engineering lead.
+    NOTE: Do not mention any markdown formatting, comments, backticks or any other formatting. Just pure python code should suffice.     
+    The output should be a valid python code which can be saved directly to a python file and executed.
+  context:
+    - plan_design
+  agent: backend_python_developer
+  output_file: output/{module}.py
+
+code_frontend:
+  description: >
+    Make a gradio UI in a single python module which completely implements the backend functionalities written by the backend engineer. Keep the UI simple and user friendly , keep the colors appealing and do not make the UI complex. Start the UI with a header saying "WELCOME Ammar" as a markdown header on the top which should be center aligned.
+  expected_output: >
+    A simple gradio application in a python module implementing the complete backend functionalities of the module written by the backend engineer in a single python module named app.py, in the same directory as the backend module. It should be complete code ready to be run, and include the backend class from the module : {module}.
+    NOTE: Do not mention any markdown formatting, comments, backticks, backticks followed by some text or any other formatting. Just pure python code should suffice. The output should be a valid python code which will directly be written to a file and executed. Make sure you follow the standard functions and attributes of gradio only, so that the gradio app runs directly from the module app.py
+  context:
+    - code_backend
+  agent: frontend_python_developer
+  output_file: output/app.py
+
+test_backend:
+  description: >
+    Write unit tests for testing the complete functionalities of the backend code written by the backend engineer. The backend module is: {module}. Create a file: test_{module} in the same directory as the backend module.
+  expected_output: >
+    Write a python script in a module named: test_{module} that consists of the unit test cases for testing the backend functionlities of the code written by the backend engineer.
+    NOTE: Do not mention any markdown formatting, comments, backticks or any other formatting. Just pure python code should suffice.
+    The output should be a valid python code which can directly be saved to a file and executed.
+  agent: QA_engineer
+  output_file: output/test_{module}.py
